@@ -114,14 +114,22 @@ async function load() {
 let socket
 onMounted(() => {
   load()
-  socket = getSocket()
-  socket.on('live_withdrawal', (item) => {
-    liveFeed.value = [item, ...liveFeed.value].slice(0, 20)
-  })
+  try {
+    socket = getSocket()
+    socket.on('live_withdrawal', (item) => {
+      liveFeed.value = [item, ...liveFeed.value].slice(0, 20)
+    })
+  } catch (err) {
+    console.error('Socket.IO failed', err)
+  }
 })
 
 onUnmounted(() => {
-  socket?.off('live_withdrawal')
+  try {
+    if (socket) socket.off('live_withdrawal')
+  } catch {
+    /* ignore */
+  }
 })
 </script>
 

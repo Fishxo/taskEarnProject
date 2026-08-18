@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   base: '/',
   build: {
+    target: 'chrome70',
     outDir: resolve(__dirname, '../frontend_dist'),
     assetsDir: 'assets',
     emptyOutDir: true,

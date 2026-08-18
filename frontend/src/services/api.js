@@ -2,29 +2,53 @@ import axios from 'axios'
 
 const TOKEN_KEY = 'gr_token'
 
+function storageGet(key) {
+  try {
+    return window.localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function storageSet(key, value) {
+  try {
+    window.localStorage.setItem(key, value)
+  } catch {
+    /* Telegram WebView can block storage */
+  }
+}
+
+function storageRemove(key) {
+  try {
+    window.localStorage.removeItem(key)
+  } catch {
+    /* ignore */
+  }
+}
+
 const api = axios.create({
   baseURL: '/api',
   timeout: 15000,
 })
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem(TOKEN_KEY)
+  const token = storageGet(TOKEN_KEY)
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
 
 export function setToken(token) {
-  if (token) localStorage.setItem(TOKEN_KEY, token)
-  else localStorage.removeItem(TOKEN_KEY)
+  if (token) storageSet(TOKEN_KEY, token)
+  else storageRemove(TOKEN_KEY)
 }
 
 export async function registerTelegram(initData, startParam = '') {
-  const { data } = await api.post('/auth/telegram', {
+  const payload = {
     initData: initData || undefined,
     start_param: startParam || undefined,
-    demo_telegram_id: 1001,
-  })
-  setToken(data.token)
+  }
+  const { data } = await api.post('/auth/telegram', payload)
+  if (data && data.token) setToken(data.token)
   return data
 }
 

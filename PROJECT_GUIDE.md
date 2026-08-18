@@ -11,7 +11,7 @@ Telegram Mini App (like SkillEarn): earn via tasks, invite friends, withdraw ETB
 | **Redis** | Optional cache |
 | **Nginx + systemd** | Same EC2 style as bingo |
 
-**Server path:** `/home/ubuntu/get_rewards`
+**Server path:** `/home/ubuntu/taskEarnProject`
 
 ---
 
@@ -49,8 +49,8 @@ Open `http://localhost:5173`
 ## EC2 update (after git pull)
 
 ```bash
-cd ~/get_rewards/backend && npm install && npm run migrate
-cd ~/get_rewards/frontend && npm install && npm run build
+cd ~/taskEarnProject/backend && npm install && npm run migrate
+cd ~/taskEarnProject/frontend && npm install && npm run build
 sudo systemctl restart get-rewards-api get-rewards-telegram-bot
 ```
 

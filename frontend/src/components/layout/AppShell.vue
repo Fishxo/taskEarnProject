@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, provide, ref } from 'vue'
+import { computed, onMounted, onUnmounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getMe } from '../../services/api'
 
@@ -77,7 +77,18 @@ async function loadUser() {
   }
 }
 
-onMounted(loadUser)
+function onAuthReady() {
+  loadUser()
+}
+
+onMounted(() => {
+  loadUser()
+  window.addEventListener('gr-auth-ready', onAuthReady)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('gr-auth-ready', onAuthReady)
+})
 </script>
 
 <style scoped>
@@ -128,7 +139,6 @@ onMounted(loadUser)
   background: rgba(14, 18, 36, 0.94);
   border: 1px solid var(--border);
   border-radius: 22px;
-  backdrop-filter: blur(12px);
   z-index: 20;
 }
 

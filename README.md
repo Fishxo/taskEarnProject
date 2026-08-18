@@ -28,4 +28,5 @@ cd backend && cp .env.example .env && npm install && npm run migrate && npm run 
 cd frontend && npm install && npm run dev
 ```
 
-Full EC2 steps: [PROJECT_GUIDE.md](./PROJECT_GUIDE.md)
+Short EC2 update commands: [PROJECT_GUIDE.md](./PROJECT_GUIDE.md)  
+Full architecture, production blockers, and first-time AWS EC2 checklist: [PROJECT_REFERENCE.md](./PROJECT_REFERENCE.md)

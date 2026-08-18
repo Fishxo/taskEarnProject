@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import { initTelegramWebApp, getInitData } from './services/telegram'
+import { expandTelegramWebApp, getInitData, getStartParam, initTelegramWebApp } from './services/telegram'
 import { registerTelegram } from './services/api'
 import './style.css'
 
@@ -12,6 +12,8 @@ import TopView from './views/TopView.vue'
 import InviteView from './views/InviteView.vue'
 import WithdrawView from './views/WithdrawView.vue'
 import AdminDashboard from './views/AdminDashboard.vue'
+
+const AUTH_READY_EVENT = 'gr-auth-ready'
 
 const routes = [
   {
@@ -34,27 +36,48 @@ const router = createRouter({
   routes,
 })
 
-async function boot() {
-  const isTelegramApp = initTelegramWebApp()
-  const params = new URLSearchParams(window.location.search)
-  const startParam =
-    window.Telegram?.WebApp?.initDataUnsafe?.start_param ||
-    params.get('tgWebAppStartParam') ||
-    params.get('ref') ||
-    ''
-
+async function authenticate() {
   try {
-    if (isTelegramApp) {
-      const initData = getInitData()
-      await registerTelegram(initData || null, startParam)
-    } else {
+    const initData = getInitData()
+    const startParam = getStartParam()
+    if (initData) {
+      await registerTelegram(initData, startParam)
+    } else if (!(window.Telegram && window.Telegram.WebApp)) {
       await registerTelegram(null, startParam)
     }
+    window.dispatchEvent(new Event(AUTH_READY_EVENT))
   } catch (err) {
     console.error('Auth failed', err)
+    window.dispatchEvent(new Event(AUTH_READY_EVENT))
+  }
+}
+
+function boot() {
+  try {
+    initTelegramWebApp()
+  } catch (err) {
+    console.error('Telegram init failed', err)
   }
 
-  createApp(App).use(router).mount('#app')
+  try {
+    createApp(App).use(router).mount('#app')
+  } catch (err) {
+    console.error('Vue mount failed', err)
+  }
+
+  try {
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(function () {
+        expandTelegramWebApp()
+      })
+    } else {
+      setTimeout(expandTelegramWebApp, 0)
+    }
+  } catch (err) {
+    console.error('Telegram expand failed', err)
+  }
+
+  authenticate()
 }
 
 boot()
