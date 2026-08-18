@@ -112,19 +112,24 @@ async function load() {
 }
 
 let socket
-onMounted(() => {
+let socketTimer
+
+onMounted(function () {
   load()
-  try {
-    socket = getSocket()
-    socket.on('live_withdrawal', (item) => {
-      liveFeed.value = [item, ...liveFeed.value].slice(0, 20)
-    })
-  } catch (err) {
-    console.error('Socket.IO failed', err)
-  }
+  socketTimer = setTimeout(function () {
+    try {
+      socket = getSocket()
+      socket.on('live_withdrawal', function (item) {
+        liveFeed.value = [item].concat(liveFeed.value).slice(0, 20)
+      })
+    } catch (err) {
+      console.error('Socket.IO failed', err)
+    }
+  }, 500)
 })
 
-onUnmounted(() => {
+onUnmounted(function () {
+  if (socketTimer) clearTimeout(socketTimer)
   try {
     if (socket) socket.off('live_withdrawal')
   } catch {

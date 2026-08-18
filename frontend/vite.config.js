@@ -7,9 +7,16 @@ export default defineConfig({
   base: '/',
   build: {
     target: 'chrome70',
+    cssTarget: 'chrome70',
     outDir: resolve(__dirname, '../frontend_dist'),
     assetsDir: 'assets',
     emptyOutDir: true,
+  },
+  esbuild: {
+    target: 'chrome70',
+    supported: {
+      'dynamic-import': true,
+    },
   },
   server: {
     port: 5173,

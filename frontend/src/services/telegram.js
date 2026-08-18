@@ -1,5 +1,25 @@
 let telegramWebApp = null
 
+function readPlatform() {
+  try {
+    const webApp = window.Telegram && window.Telegram.WebApp
+    if (webApp && webApp.platform) return String(webApp.platform).toLowerCase()
+  } catch {
+    /* ignore */
+  }
+  return ''
+}
+
+export function isTelegramDesktop() {
+  const platform = readPlatform()
+  return platform === 'tdesktop' || platform === 'macos' || platform === 'web' || platform === 'weba'
+}
+
+export function isTelegramMobile() {
+  const platform = readPlatform()
+  return platform === 'android' || platform === 'ios'
+}
+
 export function initTelegramWebApp() {
   try {
     const webApp = window.Telegram && window.Telegram.WebApp
@@ -23,6 +43,7 @@ export function initTelegramWebApp() {
 
 export function expandTelegramWebApp() {
   try {
+    if (isTelegramDesktop()) return
     const webApp = getTelegramWebApp()
     if (webApp && typeof webApp.expand === 'function') webApp.expand()
   } catch (error) {
@@ -37,7 +58,8 @@ export function getTelegramWebApp() {
 export function getInitData() {
   try {
     if (window.Telegram && window.Telegram.WebApp) {
-      return window.Telegram.WebApp.initData || null
+      var data = window.Telegram.WebApp.initData
+      return data && String(data).length > 0 ? data : null
     }
   } catch (error) {
     console.error('getInitData failed', error)
@@ -58,10 +80,18 @@ export function getInitDataRaw() {
 
 export function getStartParam() {
   try {
-    const unsafe = getInitDataRaw()
-    const params = new URLSearchParams(window.location.search || '')
+    var unsafe = getInitDataRaw()
+    var params = new URLSearchParams(window.location.search || '')
     return unsafe.start_param || params.get('tgWebAppStartParam') || params.get('ref') || ''
   } catch (error) {
     return ''
+  }
+}
+
+export function isInsideTelegram() {
+  try {
+    return !!(window.Telegram && window.Telegram.WebApp)
+  } catch {
+    return false
   }
 }

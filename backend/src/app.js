@@ -33,6 +33,12 @@ export function createApp() {
       frameguard: false,
     })
   );
+  app.use((_req, res, next) => {
+    res.removeHeader('Origin-Agent-Cluster');
+    res.removeHeader('Cross-Origin-Opener-Policy');
+    res.removeHeader('Cross-Origin-Resource-Policy');
+    next();
+  });
   app.use(
     cors({
       origin(origin, cb) {

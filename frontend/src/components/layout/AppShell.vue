@@ -2,8 +2,10 @@
   <div class="shell">
     <header class="topbar">
       <div class="brand">Get Rewards</div>
-      <router-link v-if="user?.is_admin" class="admin-link" to="/admin-dashboard">Admin</router-link>
+      <router-link v-if="user && user.is_admin" class="admin-link" to="/admin-dashboard">Admin</router-link>
     </header>
+
+    <p v-if="authError" class="auth-error">{{ authError }}</p>
 
     <main class="main">
       <router-view />
@@ -31,6 +33,7 @@ import { getMe } from '../../services/api'
 
 const route = useRoute()
 const user = ref(null)
+const authError = ref('')
 const navTab = computed(() => route.meta.navTab)
 
 provide('user', user)
@@ -77,7 +80,13 @@ async function loadUser() {
   }
 }
 
-function onAuthReady() {
+function onAuthReady(event) {
+  var detail = (event && event.detail) || {}
+  if (detail.ok === false && detail.error) {
+    authError.value = detail.error
+  } else {
+    authError.value = ''
+  }
   loadUser()
 }
 
@@ -131,7 +140,8 @@ onUnmounted(() => {
   left: 50%;
   transform: translateX(-50%);
   bottom: calc(0.45rem + var(--safe-bottom));
-  width: min(410px, calc(100% - 1rem));
+  width: calc(100% - 1rem);
+  max-width: 410px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.15rem;
@@ -172,5 +182,16 @@ onUnmounted(() => {
 .nav-item.active .icon {
   background: var(--grad-active);
   box-shadow: 0 8px 18px rgba(109, 124, 255, 0.35);
+}
+
+.auth-error {
+  margin: 0 1rem 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fecaca;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 </style>

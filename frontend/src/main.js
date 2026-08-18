@@ -1,7 +1,13 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import { expandTelegramWebApp, getInitData, getStartParam, initTelegramWebApp } from './services/telegram'
+import {
+  expandTelegramWebApp,
+  getInitData,
+  getStartParam,
+  initTelegramWebApp,
+  isInsideTelegram,
+} from './services/telegram'
 import { registerTelegram } from './services/api'
 import './style.css'
 
@@ -13,9 +19,9 @@ import InviteView from './views/InviteView.vue'
 import WithdrawView from './views/WithdrawView.vue'
 import AdminDashboard from './views/AdminDashboard.vue'
 
-const AUTH_READY_EVENT = 'gr-auth-ready'
+var AUTH_READY_EVENT = 'gr-auth-ready'
 
-const routes = [
+var routes = [
   {
     path: '/',
     component: AppShell,
@@ -31,28 +37,77 @@ const routes = [
   { path: '/admin-dashboard', name: 'admin-dashboard', component: AdminDashboard },
 ]
 
-const router = createRouter({
+var router = createRouter({
   history: createWebHistory(),
   routes,
 })
 
-async function authenticate() {
+function dispatchAuthReady(detail) {
   try {
-    const initData = getInitData()
-    const startParam = getStartParam()
-    if (initData) {
-      await registerTelegram(initData, startParam)
-    } else if (!(window.Telegram && window.Telegram.WebApp)) {
-      await registerTelegram(null, startParam)
-    }
-    window.dispatchEvent(new Event(AUTH_READY_EVENT))
+    window.dispatchEvent(new CustomEvent(AUTH_READY_EVENT, { detail: detail || {} }))
   } catch (err) {
-    console.error('Auth failed', err)
-    window.dispatchEvent(new Event(AUTH_READY_EVENT))
+    console.error('Auth event failed', err)
   }
 }
 
+function authErrorMessage(err) {
+  if (err && err.response && err.response.data && err.response.data.detail) {
+    return String(err.response.data.detail)
+  }
+  if (err && err.message) return String(err.message)
+  return 'Authentication failed. Close and reopen the Mini App from Telegram.'
+}
+
+function scheduleAuth() {
+  setTimeout(function () {
+    authenticate()
+  }, 0)
+}
+
+async function authenticate() {
+  var initData = null
+  var startParam = ''
+  try {
+    initData = getInitData()
+    startParam = getStartParam()
+    if (initData) {
+      await registerTelegram(initData, startParam)
+      dispatchAuthReady({ ok: true })
+      return
+    }
+    if (!isInsideTelegram()) {
+      await registerTelegram(null, startParam)
+      dispatchAuthReady({ ok: true })
+      return
+    }
+    dispatchAuthReady({
+      ok: false,
+      error: 'Telegram login data was not available. Close and reopen the Mini App from the bot.',
+    })
+  } catch (err) {
+    console.error('Auth failed', err)
+    dispatchAuthReady({ ok: false, error: authErrorMessage(err) })
+  }
+}
+
+function scheduleExpand() {
+  setTimeout(function () {
+    expandTelegramWebApp()
+  }, 300)
+}
+
+function installGlobalGuards() {
+  window.addEventListener('error', function (event) {
+    console.error('Window error', event.error || event.message)
+  })
+  window.addEventListener('unhandledrejection', function (event) {
+    console.error('Unhandled rejection', event.reason)
+  })
+}
+
 function boot() {
+  installGlobalGuards()
+
   try {
     initTelegramWebApp()
   } catch (err) {
@@ -63,21 +118,11 @@ function boot() {
     createApp(App).use(router).mount('#app')
   } catch (err) {
     console.error('Vue mount failed', err)
+    return
   }
 
-  try {
-    if (typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(function () {
-        expandTelegramWebApp()
-      })
-    } else {
-      setTimeout(expandTelegramWebApp, 0)
-    }
-  } catch (err) {
-    console.error('Telegram expand failed', err)
-  }
-
-  authenticate()
+  scheduleExpand()
+  scheduleAuth()
 }
 
 boot()
