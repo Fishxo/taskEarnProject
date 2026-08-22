@@ -1,56 +1,69 @@
 <template>
   <section class="page home">
-    <div class="hero-badge">💎 Skill Money</div>
+    <div class="welcome">
+      <div class="welcome-icon">🪙</div>
+      <div>
+        <p class="welcome-tag">Skill Money</p>
+        <h1 class="welcome-title">Your Wallet</h1>
+      </div>
+    </div>
 
     <div class="balance-card balance-hero">
-      <div class="bal-label">
-        <span class="clock">⏱</span>
-        ጠቅላላ ቀሪ ሂሳብ
+      <div class="balance-top">
+        <div>
+          <span class="bal-tag">BALANCE</span>
+          <div class="bal-label">ጠቅላላ ቀሪ ሂሳብ</div>
+        </div>
+        <div class="coin-badge">ETB</div>
       </div>
       <div class="bal-amount">
         <span class="num">{{ format(balance) }}</span>
-        <span class="unit">
-          <small>ETB</small>
-          <small>Birr</small>
-        </span>
+        <span class="unit">Birr</span>
       </div>
-      <div class="bal-foot">ጠቅላላ ገቢ: {{ format(totalEarned) }} ETB</div>
+      <div class="bal-foot">
+        <span>ጠቅላላ ገቢ</span>
+        <strong>{{ format(totalEarned) }} ETB</strong>
+      </div>
     </div>
 
-    <h2 class="section-title">የማህበራዊ ተግባራት - 100 ETB ያግኙ</h2>
+    <h2 class="section-title">Social Tasks · 100 ETB</h2>
 
     <div v-for="task in socialTasks" :key="task.id" class="social-card">
-      <div class="social-top">
-        <div class="social-icon">💬</div>
-        <div class="social-body">
-          <strong>{{ task.title_am }}</strong>
-          <p>+{{ task.reward_etb }} ETB · {{ task.once_label }}</p>
+      <div class="stripe"></div>
+      <div class="social-inner">
+        <div class="social-top">
+          <div class="social-icon">📣</div>
+          <div class="social-body">
+            <strong>{{ task.title_am }}</strong>
+            <p>+{{ task.reward_etb }} ETB · {{ task.once_label }}</p>
+          </div>
+          <div class="reward-tag">+{{ task.reward_etb }}</div>
         </div>
+        <div class="social-actions">
+          <a class="btn open" :href="task.url" target="_blank" rel="noopener">ክፈት ↗</a>
+          <button class="btn claim" :disabled="task.claimed || claiming" @click="claimSocial(task)">
+            {{ task.claimed ? '✓ Received' : 'Claim ETB' }}
+          </button>
+        </div>
+        <p class="hint">መጀመሪያ ቻናሉን ይቀላቀሉ፣ ከዚያ ሽልማቱን ይቀበሉ።</p>
       </div>
-      <div class="social-actions">
-        <a class="btn open" :href="task.url" target="_blank" rel="noopener">ክፈት ↗</a>
-        <button class="btn claim" :disabled="task.claimed || claiming" @click="claimSocial(task)">
-          {{ task.claimed ? 'ተቀብሏል' : task.reward_etb + ' ETB ይቀበሉ' }}
-        </button>
-      </div>
-      <p class="hint">መጀመሪያ ቻናሉን ይቀላቀሉ፣ ከዚያ ሽልማቱን ይቀበሉ።</p>
     </div>
 
     <div class="live-head">
-      <span>⚡ የቀጥታ መውጫዎች</span>
+      <span class="live-title">⚡ Live Withdrawals</span>
       <span class="live-pill"><i class="live-dot"></i> LIVE</span>
     </div>
 
     <ul class="live-list">
       <li v-for="item in liveFeed" :key="item.id" class="live-item">
-        <div class="live-icon">👛</div>
+        <div class="live-icon">💰</div>
         <div class="live-body">
-          <strong>{{ item.name }} ወጪ አድርጓል</strong>
-          <small>በ {{ item.method }} · {{ item.ago }}</small>
+          <strong>{{ item.name }}</strong>
+          <small>{{ item.method }} · {{ item.ago }}</small>
         </div>
         <div class="live-amt">
-          {{ format(item.amount) }} ETB
-          <span>Birr</span>
+          {{ format(item.amount) }}
+          <span>ETB</span>
         </div>
       </li>
     </ul>
@@ -139,133 +152,197 @@ onUnmounted(function () {
 </script>
 
 <style scoped>
-.hero-badge {
-  display: block;
-  width: fit-content;
-  margin: 0 auto 0.85rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  font-size: 0.88rem;
+.welcome {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.welcome-icon {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  background: var(--gold-soft);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.welcome-tag {
+  margin: 0;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #dbe2ff;
-  background: rgba(124, 140, 255, 0.14);
-  border: 1px solid var(--border-strong);
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.welcome-title {
+  margin: 0.1rem 0 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .balance-card {
+  padding: 1.1rem 1.15rem 1rem;
+  color: #042f2e;
+}
+
+.balance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   position: relative;
+  z-index: 1;
+}
+
+.bal-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
 }
 
 .bal-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.92rem;
-  opacity: 0.95;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.coin-badge {
+  background: rgba(0, 0, 0, 0.2);
+  color: #fde047;
+  font-weight: 800;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  letter-spacing: 0.05em;
 }
 
 .bal-amount {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.45rem;
-  margin: 0.6rem 0 0.4rem;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0.6rem;
   position: relative;
   z-index: 1;
 }
 
 .num {
-  font-size: 2.85rem;
-  font-weight: 800;
+  font-size: 3rem;
+  font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 1;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
 .unit {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: 0.3rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.1;
-}
-
-.unit small:last-child {
-  font-size: 0.72rem;
-  opacity: 0.88;
-  font-weight: 500;
+  opacity: 0.8;
 }
 
 .bal-foot {
-  font-size: 0.9rem;
-  opacity: 0.92;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 0.85rem;
   position: relative;
   z-index: 1;
 }
 
+.bal-foot strong {
+  font-size: 1rem;
+}
+
 .social-card {
+  display: flex;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 1rem;
+  overflow: hidden;
   margin-bottom: 0.75rem;
   box-shadow: var(--shadow-sm);
 }
 
+.stripe {
+  width: 4px;
+  background: var(--grad-gold);
+  flex-shrink: 0;
+}
+
+.social-inner {
+  flex: 1;
+  padding: 0.95rem;
+}
+
 .social-top {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.85rem;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.7rem;
   align-items: center;
 }
 
 .social-icon {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 14px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
   display: grid;
   place-items: center;
-  font-size: 1.15rem;
-  background: rgba(124, 140, 255, 0.18);
+  font-size: 1.1rem;
+  background: rgba(45, 212, 191, 0.12);
   border: 1px solid var(--border-strong);
 }
 
 .social-body strong {
   display: block;
-  margin-bottom: 0.25rem;
-  font-size: 0.98rem;
+  font-size: 0.92rem;
+  margin-bottom: 0.15rem;
 }
 
 .social-body p {
   margin: 0;
-  color: var(--accent-bright);
-  font-size: 0.88rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.reward-tag {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--gold);
+  background: var(--gold-soft);
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
 }
 
 .social-actions {
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 0.55rem;
-  margin-top: 0.85rem;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
 }
 
 .btn {
-  border-radius: var(--radius-sm);
-  padding: 0.78rem 0.7rem;
+  border-radius: 10px;
+  padding: 0.72rem;
   text-align: center;
   font-weight: 700;
+  font-size: 0.88rem;
 }
 
 .btn.open {
-  background: rgba(255, 255, 255, 0.92);
-  color: #1a1f45;
+  background: rgba(45, 212, 191, 0.15);
+  color: var(--accent-bright);
+  border: 1px solid var(--border-strong);
 }
 
 .btn.claim {
-  background: rgba(26, 22, 68, 0.55);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--grad-gold);
+  color: #422006;
 }
 
 .btn.claim:disabled {
@@ -273,28 +350,31 @@ onUnmounted(function () {
 }
 
 .hint {
-  margin: 0.75rem 0 0;
-  color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.4;
+  margin: 0.65rem 0 0;
+  color: var(--muted-soft);
+  font-size: 0.78rem;
 }
 
 .live-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1.35rem 0 0.75rem;
+  margin: 1.2rem 0 0.65rem;
+}
+
+.live-title {
   font-weight: 700;
+  font-size: 0.92rem;
 }
 
 .live-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   color: var(--success);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  padding: 0.3rem 0.65rem;
+  padding: 0.28rem 0.6rem;
   border-radius: 999px;
   background: var(--success-soft);
   border: 1px solid rgba(52, 211, 153, 0.25);
@@ -302,50 +382,50 @@ onUnmounted(function () {
 
 .live-list {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .live-item {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.7rem;
+  gap: 0.65rem;
   align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 0.85rem 0.9rem;
-  box-shadow: var(--shadow-sm);
+  padding: 0.75rem 0.85rem;
 }
 
 .live-icon {
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 12px;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 10px;
   display: grid;
   place-items: center;
-  background: rgba(124, 140, 255, 0.12);
-  border: 1px solid var(--border);
+  background: var(--gold-soft);
+  font-size: 1rem;
 }
 
 .live-body strong {
   display: block;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .live-body small {
   color: var(--muted);
+  font-size: 0.76rem;
 }
 
 .live-amt {
   font-weight: 800;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   text-align: right;
-  color: var(--accent-bright);
+  color: var(--gold);
 }
 
 .live-amt span {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--muted);
   font-weight: 500;
 }

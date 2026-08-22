@@ -1,7 +1,7 @@
 <template>
   <section class="page earn">
     <div class="title-row">
-      <h1 class="page-title">ተግባራት</h1>
+      <h1 class="page-title gold">ተግባራት</h1>
     </div>
 
     <div class="grid">
@@ -98,86 +98,94 @@ onMounted(load)
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
-  margin-top: 0.85rem;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .task {
   position: relative;
-  min-height: 9.75rem;
+  min-height: 9.5rem;
   border-radius: var(--radius-lg);
-  padding: 1rem 0.75rem;
+  padding: 1rem 0.7rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  color: #d7ddf8;
+  color: var(--muted);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .task.active {
-  background: var(--grad-active);
+  background: linear-gradient(145deg, #134e4a, #0f766e);
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 14px 32px rgba(109, 124, 255, 0.42);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
 }
 
 .task.locked {
-  opacity: 0.72;
-  background: rgba(14, 18, 36, 0.85);
+  opacity: 0.55;
+  background: #111614;
 }
 
 .task.done {
-  background: rgba(26, 39, 72, 0.9);
-  border-color: rgba(52, 211, 153, 0.2);
+  background: #1a2420;
+  border-color: rgba(52, 211, 153, 0.25);
+  color: var(--success);
 }
 
 .num {
   position: absolute;
-  top: 0.75rem;
-  left: 0.85rem;
-  font-size: 0.82rem;
+  top: 0.65rem;
+  left: 0.75rem;
+  font-size: 0.75rem;
   font-weight: 800;
-  opacity: 0.85;
   padding: 0.2rem 0.45rem;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--gold);
 }
 
 .task.active .num {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(251, 191, 36, 0.25);
+  color: #fde047;
 }
 
 .glyph {
   display: grid;
   place-items: center;
-  margin-top: 0.35rem;
-  width: 3rem;
-  height: 3rem;
+  width: 3.2rem;
+  height: 3.2rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.08);
 }
 
 .task.active .glyph {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(45, 212, 191, 0.2);
+  border-color: var(--accent);
+  color: var(--accent-bright);
 }
 
 .label {
-  font-weight: 750;
-  font-size: 0.96rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   text-align: center;
 }
 
 .reward {
-  font-size: 0.78rem;
-  opacity: 0.95;
-  font-weight: 700;
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.22rem 0.5rem;
+  border-radius: 6px;
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.task.active .reward {
+  background: rgba(251, 191, 36, 0.3);
+  color: #fde047;
 }
 </style>

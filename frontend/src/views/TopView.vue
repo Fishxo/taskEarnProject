@@ -3,7 +3,7 @@
     <div class="head">
       <div class="trophy">🏆</div>
       <div>
-        <h1 class="page-title">ከፍተኛ ገቢ ያገኙ</h1>
+        <h1 class="page-title gold">ከፍተኛ ገቢ ያገኙ</h1>
         <p class="page-sub">Live leaderboard · በቀጥታ ይዘመናል</p>
       </div>
     </div>
@@ -75,21 +75,21 @@ onMounted(async () => {
 <style scoped>
 .head {
   display: flex;
-  gap: 0.85rem;
+  gap: 0.8rem;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
 .trophy {
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 3rem;
+  height: 3rem;
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
-  border-radius: 16px;
-  background: rgba(251, 191, 36, 0.15);
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.12);
+  font-size: 1.4rem;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  border: 2px solid rgba(251, 191, 36, 0.35);
+  box-shadow: var(--shadow-gold);
 }
 
 .page-title {
@@ -103,39 +103,35 @@ onMounted(async () => {
 .podium {
   display: grid;
   grid-template-columns: 1fr 1.15fr 1fr;
-  gap: 0.55rem;
+  gap: 0.5rem;
   align-items: end;
-  margin: 1.15rem 0 1.25rem;
+  margin: 1rem 0 1.15rem;
 }
 
 .seat {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 0.95rem 0.55rem;
+  padding: 0.9rem 0.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
-  box-shadow: var(--shadow-sm);
+  gap: 0.25rem;
 }
 
 .seat.r1 {
-  min-height: 11.5rem;
-  background: linear-gradient(180deg, rgba(124, 140, 255, 0.32) 0%, var(--bg-card) 55%);
+  min-height: 11rem;
+  background: linear-gradient(180deg, rgba(45, 212, 191, 0.2) 0%, var(--bg-card) 60%);
   border-color: var(--border-strong);
-  box-shadow: 0 12px 28px rgba(109, 124, 255, 0.2);
+  box-shadow: var(--shadow-glow);
 }
 
-.seat.r2,
-.seat.r3 {
-  min-height: 9.5rem;
+.seat.r2, .seat.r3 {
+  min-height: 9rem;
 }
 
-.badge {
-  font-size: 1.1rem;
-}
+.badge { font-size: 1.05rem; }
 
 .avatar {
   width: 3rem;
@@ -145,55 +141,51 @@ onMounted(async () => {
   place-items: center;
   background: var(--grad-active);
   font-weight: 800;
-  box-shadow: 0 6px 16px rgba(109, 124, 255, 0.35);
+  color: #042f2e;
+  box-shadow: var(--shadow-glow);
 }
 
 .seat.r1 .avatar {
-  width: 3.4rem;
-  height: 3.4rem;
-  font-size: 1.05rem;
+  width: 3.3rem;
+  height: 3.3rem;
+  background: var(--grad-gold);
+  color: #422006;
+  box-shadow: var(--shadow-gold);
 }
 
 .avatar.sm {
-  width: 2.3rem;
-  height: 2.3rem;
-  font-size: 0.78rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 0.75rem;
 }
 
 .amt {
-  color: var(--accent-bright);
+  color: var(--gold);
   font-weight: 800;
 }
 
 .list {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .list li {
   display: grid;
   grid-template-columns: auto auto 1fr auto;
-  gap: 0.65rem;
+  gap: 0.6rem;
   align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 0.8rem 0.9rem;
-  box-shadow: var(--shadow-sm);
+  padding: 0.75rem 0.85rem;
 }
 
 .rank {
-  width: 1.4rem;
+  width: 1.3rem;
   color: var(--muted);
   font-weight: 800;
-  font-size: 0.9rem;
 }
 
-.meta strong {
-  display: block;
-}
-
-.meta small {
-  color: var(--muted);
-}
+.meta strong { display: block; }
+.meta small { color: var(--muted); }
 </style>

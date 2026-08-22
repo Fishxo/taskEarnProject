@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <h1 class="page-title">ጋብዝ እና ገቢ ያግኙ</h1>
+    <h1 class="page-title gold">ጋብዝ እና ገቢ ያግኙ</h1>
     <p class="page-sub">ጓደኛዎ ሲመዘገብ {{ inviteReward }} ETB ያግኙ</p>
 
     <div class="reward-banner">
@@ -94,101 +94,79 @@ onMounted(async () => {
 .reward-banner {
   display: flex;
   align-items: center;
-  gap: 0.95rem;
-  background: var(--grad-active);
+  gap: 0.9rem;
+  background: linear-gradient(135deg, #134e4a, #0f766e);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
-  padding: 1.15rem 1.05rem;
-  margin-bottom: 0.95rem;
+  padding: 1.1rem 1rem;
+  margin-bottom: 0.85rem;
   box-shadow: var(--shadow-glow);
-  position: relative;
-  overflow: hidden;
 }
 
-.reward-banner::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.15), transparent 50%);
-  pointer-events: none;
-}
-
-.gift {
-  font-size: 2rem;
-  position: relative;
-  z-index: 1;
-}
+.gift { font-size: 2rem; }
 
 .reward-banner small {
   display: block;
-  opacity: 0.92;
-  position: relative;
-  z-index: 1;
+  color: var(--accent-bright);
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 
 .reward-banner strong {
-  font-size: 1.85rem;
-  position: relative;
-  z-index: 1;
+  font-size: 1.75rem;
+  color: var(--gold);
 }
 
 .box {
-  padding: 1.05rem;
-  margin-bottom: 0.9rem;
+  padding: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .box h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  font-weight: 700;
+  margin: 0 0 0.7rem;
+  font-size: 0.95rem;
 }
 
 .link {
-  background: rgba(8, 12, 28, 0.85);
+  background: #0e1311;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.85rem;
-  font-size: 0.78rem;
+  padding: 0.8rem;
+  font-size: 0.76rem;
   word-break: break-all;
-  color: #c7d0f5;
-  margin-bottom: 0.85rem;
+  color: var(--accent-bright);
+  margin-bottom: 0.8rem;
 }
 
 .share-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.55rem;
-  margin-bottom: 0.8rem;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .share {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
   justify-content: center;
-  padding: 0.78rem;
+  padding: 0.72rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(45, 212, 191, 0.06);
   font-weight: 650;
-  font-size: 0.88rem;
-  transition: border-color 0.15s ease, background 0.15s ease;
-}
-
-.share:active {
-  background: rgba(124, 140, 255, 0.12);
-  border-color: var(--border-strong);
+  font-size: 0.85rem;
 }
 
 .actions {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
-  gap: 0.55rem;
+  gap: 0.5rem;
 }
 
-.ghost,
-.primary {
+.ghost, .primary {
   border-radius: var(--radius-sm);
-  padding: 0.88rem;
+  padding: 0.85rem;
   font-weight: 700;
 }
 
@@ -198,39 +176,31 @@ onMounted(async () => {
 }
 
 .primary {
-  background: var(--grad-active);
-  box-shadow: 0 8px 20px rgba(109, 124, 255, 0.35);
+  background: var(--grad-gold);
+  color: #422006;
+  box-shadow: var(--shadow-gold);
 }
 
 .stats {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.8rem;
+  gap: 0.75rem;
   align-items: center;
-  padding: 1rem 1.05rem;
+  padding: 0.95rem 1rem;
 }
 
 .stat-icon {
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 14px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
   display: grid;
   place-items: center;
-  font-size: 1.1rem;
-  background: rgba(124, 140, 255, 0.16);
+  font-size: 1.05rem;
+  background: rgba(45, 212, 191, 0.12);
   border: 1px solid var(--border-strong);
 }
 
-.stats small {
-  display: block;
-  color: var(--muted);
-}
-
-.stats strong {
-  font-size: 1.3rem;
-}
-
-.earned strong {
-  color: var(--accent-bright);
-}
+.stats small { display: block; color: var(--muted); }
+.stats strong { font-size: 1.25rem; }
+.earned strong { color: var(--gold); }
 </style>

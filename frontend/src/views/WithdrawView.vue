@@ -2,7 +2,7 @@
   <section class="page">
     <div class="title-row">
       <div>
-        <h1 class="page-title">Withdraw</h1>
+        <h1 class="page-title gold">Withdraw</h1>
         <p class="page-sub">ዝቅተኛው {{ minWithdraw.toLocaleString() }} ETB • Ethiopian Birr</p>
       </div>
       <button class="history" @click="showFeedback = !showFeedback">⏱ History</button>
@@ -160,56 +160,51 @@ onMounted(async () => {
 .history {
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 0.45rem 0.8rem;
-  background: rgba(255, 255, 255, 0.04);
+  padding: 0.42rem 0.75rem;
+  background: rgba(45, 212, 191, 0.08);
   white-space: nowrap;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--accent-bright);
 }
 
 .balance-card {
-  margin-top: 0.85rem;
-  position: relative;
+  margin-top: 0.75rem;
+  padding: 1.1rem 1rem;
+  text-align: center;
+  color: #042f2e;
 }
 
-.wallet {
-  font-size: 1.4rem;
-  position: relative;
-  z-index: 1;
-}
+.wallet { font-size: 1.35rem; }
 
 .balance-card small {
   display: block;
-  margin: 0.3rem 0 0.4rem;
-  opacity: 0.95;
-  position: relative;
-  z-index: 1;
+  margin: 0.25rem 0 0.35rem;
+  font-weight: 600;
 }
 
 .balance-card strong {
   font-size: 2.1rem;
-  position: relative;
-  z-index: 1;
+  font-weight: 900;
 }
 
 .notice {
-  margin: 0.9rem 0;
-  background: rgba(124, 140, 255, 0.12);
-  color: var(--accent-bright);
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  padding: 0.7rem 0.95rem;
+  margin: 0.85rem 0;
+  background: var(--gold-soft);
+  color: var(--gold);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
   text-align: center;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 600;
 }
 
 .field-label {
   display: block;
-  margin: 0.85rem 0 0.45rem;
+  margin: 0.8rem 0 0.4rem;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
@@ -221,42 +216,23 @@ onMounted(async () => {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.95rem 1rem;
+  padding: 0.9rem 1rem;
   font-weight: 700;
-  box-shadow: var(--shadow-sm);
 }
 
 .country.open {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(124, 140, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.12);
 }
 
-.methods {
-  margin-top: 0.9rem;
-}
-
-.methods h3 {
-  margin: 0 0 0.6rem;
-  font-size: 0.95rem;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
-.input {
-  margin-bottom: 0.15rem;
-}
-
-.submit {
-  width: 100%;
-  margin-top: 0.95rem;
-}
+.methods { margin-top: 0.85rem; }
+.methods h3 { margin: 0 0 0.55rem; font-size: 0.92rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.input { margin-bottom: 0.1rem; }
+.submit { width: 100%; margin-top: 0.9rem; color: #042f2e; }
 
 .feedback-head {
-  margin-top: 1.35rem;
+  margin-top: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -264,69 +240,44 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.rating {
-  color: var(--accent-bright);
-  font-size: 0.86rem;
-}
-
-.feedback-sub {
-  margin: 0.35rem 0 0.8rem;
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-
-.feedback-list {
-  display: grid;
-  gap: 0.65rem;
-}
+.rating { color: var(--gold); font-size: 0.84rem; }
+.feedback-sub { margin: 0.3rem 0 0.75rem; color: var(--muted); font-size: 0.84rem; }
+.feedback-list { display: grid; gap: 0.55rem; }
 
 .feedback-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius-md);
-  padding: 0.9rem;
-  box-shadow: var(--shadow-sm);
+  padding: 0.85rem;
 }
 
 .f-top {
   display: flex;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  gap: 0.65rem;
+  margin-bottom: 0.45rem;
 }
 
 .f-user {
   display: flex;
-  gap: 0.65rem;
+  gap: 0.6rem;
   align-items: center;
 }
 
 .avatar {
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--grad-active);
+  background: var(--grad-gold);
+  color: #422006;
   font-weight: 800;
-  font-size: 0.78rem;
-  box-shadow: 0 4px 12px rgba(109, 124, 255, 0.3);
+  font-size: 0.75rem;
 }
 
-.stars {
-  color: var(--warning);
-  font-size: 0.76rem;
-  letter-spacing: 0.05em;
-}
-
-.feedback-card p {
-  margin: 0;
-  color: #d7ddf5;
-  line-height: 1.5;
-  font-size: 0.9rem;
-}
-
-.feedback-card small {
-  color: var(--muted);
-}
+.stars { color: var(--gold); font-size: 0.74rem; letter-spacing: 0.05em; }
+.feedback-card p { margin: 0; color: #c8d4cf; line-height: 1.45; font-size: 0.88rem; }
+.feedback-card small { color: var(--muted); }
 </style>
