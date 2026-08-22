@@ -8,7 +8,7 @@
       <button class="history" @click="showFeedback = !showFeedback">⏱ History</button>
     </div>
 
-    <div class="balance-card">
+    <div class="balance-card balance-hero">
       <div class="wallet">👛</div>
       <small>ያለዎት ቀሪ ሂሳብ</small>
       <strong>{{ format(balance) }} ETB</strong>
@@ -37,12 +37,12 @@
       </div>
 
       <label class="field-label">መጠን (ETB)</label>
-      <input v-model.number="amount" type="number" min="0" class="input" placeholder="2000" />
+      <input v-model.number="amount" type="number" min="0" class="input input-field" placeholder="2000" />
 
       <label class="field-label">ስልክ / አካውንት</label>
-      <input v-model="account" class="input" placeholder="09xxxxxxxx" />
+      <input v-model="account" class="input input-field" placeholder="09xxxxxxxx" />
 
-      <button class="submit" :disabled="submitting" @click="submitWithdraw">
+      <button class="submit btn-primary" :disabled="submitting" @click="submitWithdraw">
         {{ submitting ? '...' : 'Withdraw request' }}
       </button>
     </div>
@@ -160,49 +160,57 @@ onMounted(async () => {
 .history {
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 0.45rem 0.75rem;
-  background: #121833;
+  padding: 0.45rem 0.8rem;
+  background: rgba(255, 255, 255, 0.04);
   white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
 }
 
 .balance-card {
-  margin-top: 0.75rem;
-  background: var(--grad-active);
-  border-radius: 20px;
-  padding: 1.15rem 1rem;
-  text-align: center;
-  box-shadow: 0 14px 30px rgba(109, 124, 255, 0.3);
+  margin-top: 0.85rem;
+  position: relative;
 }
 
 .wallet {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  position: relative;
+  z-index: 1;
 }
 
 .balance-card small {
   display: block;
-  margin: 0.25rem 0 0.35rem;
+  margin: 0.3rem 0 0.4rem;
   opacity: 0.95;
+  position: relative;
+  z-index: 1;
 }
 
 .balance-card strong {
-  font-size: 2rem;
+  font-size: 2.1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .notice {
-  margin: 0.85rem 0;
-  background: rgba(109, 124, 255, 0.12);
-  color: #b7c0ff;
+  margin: 0.9rem 0;
+  background: rgba(124, 140, 255, 0.12);
+  color: var(--accent-bright);
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
-  padding: 0.65rem 0.9rem;
+  padding: 0.7rem 0.95rem;
   text-align: center;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
+  font-weight: 600;
 }
 
 .field-label {
   display: block;
   margin: 0.85rem 0 0.45rem;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .country {
@@ -212,21 +220,23 @@ onMounted(async () => {
   align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   padding: 0.95rem 1rem;
   font-weight: 700;
+  box-shadow: var(--shadow-sm);
 }
 
 .country.open {
-  border-color: rgba(109, 124, 255, 0.55);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 140, 255, 0.12);
 }
 
 .methods {
-  margin-top: 0.85rem;
+  margin-top: 0.9rem;
 }
 
 .methods h3 {
-  margin: 0 0 0.55rem;
+  margin: 0 0 0.6rem;
   font-size: 0.95rem;
 }
 
@@ -236,53 +246,33 @@ onMounted(async () => {
   gap: 0.45rem;
 }
 
-.chip {
-  border-radius: 999px;
-  padding: 0.55rem 0.8rem;
-  background: #121833;
-  border: 1px solid var(--border);
-  font-size: 0.85rem;
-}
-
-.chip.active {
-  background: rgba(109, 124, 255, 0.25);
-  border-color: #6d7cff;
-}
-
 .input {
-  width: 100%;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: #0f1430;
-  padding: 0.85rem 0.9rem;
+  margin-bottom: 0.15rem;
 }
 
 .submit {
   width: 100%;
-  margin-top: 0.9rem;
-  border-radius: 14px;
-  padding: 0.95rem;
-  background: #4f6bff;
-  font-weight: 800;
+  margin-top: 0.95rem;
 }
 
 .feedback-head {
-  margin-top: 1.25rem;
+  margin-top: 1.35rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .rating {
-  color: #c7ceff;
-  font-size: 0.88rem;
+  color: var(--accent-bright);
+  font-size: 0.86rem;
 }
 
 .feedback-sub {
-  margin: 0.35rem 0 0.75rem;
+  margin: 0.35rem 0 0.8rem;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 
 .feedback-list {
@@ -293,45 +283,47 @@ onMounted(async () => {
 .feedback-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  padding: 0.9rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .f-top {
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.5rem;
 }
 
 .f-user {
   display: flex;
-  gap: 0.6rem;
+  gap: 0.65rem;
   align-items: center;
 }
 
 .avatar {
-  width: 2.3rem;
-  height: 2.3rem;
+  width: 2.35rem;
+  height: 2.35rem;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #4f6bff;
+  background: var(--grad-active);
   font-weight: 800;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  box-shadow: 0 4px 12px rgba(109, 124, 255, 0.3);
 }
 
 .stars {
   color: var(--warning);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   letter-spacing: 0.05em;
 }
 
 .feedback-card p {
   margin: 0;
   color: #d7ddf5;
-  line-height: 1.45;
-  font-size: 0.92rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 .feedback-card small {

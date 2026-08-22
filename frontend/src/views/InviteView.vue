@@ -94,42 +94,59 @@ onMounted(async () => {
 .reward-banner {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.95rem;
   background: var(--grad-active);
-  border-radius: 20px;
-  padding: 1.1rem 1rem;
-  margin-bottom: 0.9rem;
-  box-shadow: 0 14px 30px rgba(109, 124, 255, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem 1.05rem;
+  margin-bottom: 0.95rem;
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.reward-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.15), transparent 50%);
+  pointer-events: none;
 }
 
 .gift {
-  font-size: 1.8rem;
+  font-size: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .reward-banner small {
   display: block;
-  opacity: 0.9;
+  opacity: 0.92;
+  position: relative;
+  z-index: 1;
 }
 
 .reward-banner strong {
-  font-size: 1.8rem;
+  font-size: 1.85rem;
+  position: relative;
+  z-index: 1;
 }
 
 .box {
-  padding: 1rem;
-  margin-bottom: 0.85rem;
+  padding: 1.05rem;
+  margin-bottom: 0.9rem;
 }
 
 .box h2 {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.75rem;
   font-size: 1rem;
+  font-weight: 700;
 }
 
 .link {
-  background: #0f1430;
+  background: rgba(8, 12, 28, 0.85);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 0.8rem;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
   font-size: 0.78rem;
   word-break: break-all;
   color: #c7d0f5;
@@ -140,7 +157,7 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.55rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.8rem;
 }
 
 .share {
@@ -148,12 +165,18 @@ onMounted(async () => {
   align-items: center;
   gap: 0.45rem;
   justify-content: center;
-  padding: 0.75rem;
-  border-radius: 12px;
+  padding: 0.78rem;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: #121833;
+  background: rgba(255, 255, 255, 0.03);
   font-weight: 650;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.share:active {
+  background: rgba(124, 140, 255, 0.12);
+  border-color: var(--border-strong);
 }
 
 .actions {
@@ -164,35 +187,38 @@ onMounted(async () => {
 
 .ghost,
 .primary {
-  border-radius: 12px;
-  padding: 0.85rem;
+  border-radius: var(--radius-sm);
+  padding: 0.88rem;
   font-weight: 700;
 }
 
 .ghost {
   border: 1px solid var(--border);
-  background: #121833;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .primary {
-  background: #4f6bff;
+  background: var(--grad-active);
+  box-shadow: 0 8px 20px rgba(109, 124, 255, 0.35);
 }
 
 .stats {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.75rem;
+  gap: 0.8rem;
   align-items: center;
-  padding: 0.95rem 1rem;
+  padding: 1rem 1.05rem;
 }
 
 .stat-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 12px;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 14px;
   display: grid;
   place-items: center;
-  background: rgba(109, 124, 255, 0.18);
+  font-size: 1.1rem;
+  background: rgba(124, 140, 255, 0.16);
+  border: 1px solid var(--border-strong);
 }
 
 .stats small {
@@ -201,10 +227,10 @@ onMounted(async () => {
 }
 
 .stats strong {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
 }
 
 .earned strong {
-  color: #b7c0ff;
+  color: var(--accent-bright);
 }
 </style>

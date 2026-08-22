@@ -75,13 +75,21 @@ onMounted(async () => {
 <style scoped>
 .head {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.85rem;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
 .trophy {
-  font-size: 1.8rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  border-radius: 16px;
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.12);
 }
 
 .page-title {
@@ -95,31 +103,38 @@ onMounted(async () => {
 .podium {
   display: grid;
   grid-template-columns: 1fr 1.15fr 1fr;
-  gap: 0.5rem;
+  gap: 0.55rem;
   align-items: end;
-  margin: 1.1rem 0 1.2rem;
+  margin: 1.15rem 0 1.25rem;
 }
 
 .seat {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 0.9rem 0.5rem;
+  border-radius: var(--radius-md);
+  padding: 0.95rem 0.55rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .seat.r1 {
-  min-height: 11rem;
-  background: linear-gradient(180deg, rgba(109, 124, 255, 0.28), var(--bg-card));
+  min-height: 11.5rem;
+  background: linear-gradient(180deg, rgba(124, 140, 255, 0.32) 0%, var(--bg-card) 55%);
+  border-color: var(--border-strong);
+  box-shadow: 0 12px 28px rgba(109, 124, 255, 0.2);
 }
 
 .seat.r2,
 .seat.r3 {
-  min-height: 9.2rem;
+  min-height: 9.5rem;
+}
+
+.badge {
+  font-size: 1.1rem;
 }
 
 .avatar {
@@ -128,23 +143,31 @@ onMounted(async () => {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #4f6bff;
+  background: var(--grad-active);
   font-weight: 800;
+  box-shadow: 0 6px 16px rgba(109, 124, 255, 0.35);
+}
+
+.seat.r1 .avatar {
+  width: 3.4rem;
+  height: 3.4rem;
+  font-size: 1.05rem;
 }
 
 .avatar.sm {
   width: 2.3rem;
   height: 2.3rem;
+  font-size: 0.78rem;
 }
 
 .amt {
-  color: #b7c0ff;
+  color: var(--accent-bright);
   font-weight: 800;
 }
 
 .list {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.6rem;
 }
 
 .list li {
@@ -154,14 +177,16 @@ onMounted(async () => {
   align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-md);
+  padding: 0.8rem 0.9rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .rank {
-  width: 1.2rem;
+  width: 1.4rem;
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 0.9rem;
 }
 
 .meta strong {

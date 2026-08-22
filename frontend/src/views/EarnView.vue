@@ -99,62 +99,85 @@ onMounted(load)
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.85rem;
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
 }
 
 .task {
   position: relative;
-  min-height: 9.5rem;
-  border-radius: 22px;
-  padding: 0.95rem 0.7rem;
+  min-height: 9.75rem;
+  border-radius: var(--radius-lg);
+  padding: 1rem 0.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  background: #151b36;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   color: #d7ddf8;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .task.active {
-  background: linear-gradient(160deg, #8b7cff 0%, #6d7cff 55%, #5a6ef5 100%);
+  background: var(--grad-active);
   color: #fff;
-  box-shadow: 0 14px 30px rgba(109, 124, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 14px 32px rgba(109, 124, 255, 0.42);
 }
 
 .task.locked {
-  opacity: 0.78;
-  background: #121833;
+  opacity: 0.72;
+  background: rgba(14, 18, 36, 0.85);
 }
 
 .task.done {
-  background: #1a2748;
+  background: rgba(26, 39, 72, 0.9);
+  border-color: rgba(52, 211, 153, 0.2);
 }
 
 .num {
   position: absolute;
-  top: 0.7rem;
+  top: 0.75rem;
   left: 0.85rem;
-  font-size: 0.88rem;
-  font-weight: 700;
-  opacity: 0.9;
+  font-size: 0.82rem;
+  font-weight: 800;
+  opacity: 0.85;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.task.active .num {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .glyph {
   display: grid;
   place-items: center;
   margin-top: 0.35rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.task.active .glyph {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .label {
   font-weight: 750;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
+  text-align: center;
 }
 
 .reward {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   opacity: 0.95;
-  font-weight: 650;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
 }
 </style>

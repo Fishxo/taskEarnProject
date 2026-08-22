@@ -1,7 +1,15 @@
 <template>
   <div class="shell">
+    <div class="shell-glow" aria-hidden="true"></div>
+
     <header class="topbar">
-      <div class="brand">Get Rewards</div>
+      <div class="brand-wrap">
+        <div class="brand-mark">GR</div>
+        <div>
+          <div class="brand">Get Rewards</div>
+          <div class="brand-sub">Earn · Invite · Withdraw</div>
+        </div>
+      </div>
       <router-link v-if="user && user.is_admin" class="admin-link" to="/admin-dashboard">Admin</router-link>
     </header>
 
@@ -90,12 +98,12 @@ function onAuthReady(event) {
   loadUser()
 }
 
-onMounted(() => {
+onMounted(function () {
   loadUser()
   window.addEventListener('gr-auth-ready', onAuthReady)
 })
 
-onUnmounted(() => {
+onUnmounted(function () {
   window.removeEventListener('gr-auth-ready', onAuthReady)
 })
 </script>
@@ -108,47 +116,93 @@ onUnmounted(() => {
   display: grid;
   grid-template-rows: auto 1fr auto;
   position: relative;
+  isolation: isolate;
+}
+
+.shell-glow {
+  position: fixed;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 140, 255, 0.18), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .topbar {
-  padding: 0.85rem 1rem 0.2rem;
+  padding: 0.9rem 1rem 0.35rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-mark {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  background: var(--grad-active);
+  box-shadow: 0 8px 20px rgba(109, 124, 255, 0.35);
 }
 
 .brand {
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
 }
 
 .admin-link {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #b7c0ff;
-  border: 1px solid rgba(109, 124, 255, 0.35);
+  color: #dbe2ff;
+  border: 1px solid var(--border-strong);
+  background: rgba(124, 140, 255, 0.1);
   border-radius: 999px;
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.75rem;
 }
 
 .main {
-  padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 0.5rem);
+  padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 0.65rem);
+  position: relative;
+  z-index: 1;
 }
 
 .nav {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(0.45rem + var(--safe-bottom));
-  width: calc(100% - 1rem);
+  bottom: calc(0.5rem + var(--safe-bottom));
+  width: calc(100% - 1.1rem);
   max-width: 410px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 0.15rem;
-  padding: 0.45rem 0.35rem;
-  background: rgba(14, 18, 36, 0.94);
-  border: 1px solid var(--border);
-  border-radius: 22px;
+  gap: 0.1rem;
+  padding: 0.5rem 0.4rem;
+  background: rgba(12, 16, 32, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(124, 140, 255, 0.08) inset;
   z-index: 20;
 }
 
@@ -156,23 +210,27 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  color: var(--muted);
-  font-size: 0.7rem;
-  padding: 0.25rem 0.1rem;
+  gap: 0.18rem;
+  color: var(--muted-soft);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.28rem 0.1rem;
+  border-radius: 16px;
+  transition: color 0.15s ease;
 }
 
 .icon {
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.4rem;
+  height: 2.4rem;
   display: grid;
   place-items: center;
-  border-radius: 12px;
+  border-radius: 14px;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
 .icon :deep(svg) {
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.12rem;
+  height: 1.12rem;
 }
 
 .nav-item.active {
@@ -181,17 +239,19 @@ onUnmounted(() => {
 
 .nav-item.active .icon {
   background: var(--grad-active);
-  box-shadow: 0 8px 18px rgba(109, 124, 255, 0.35);
+  box-shadow: 0 8px 20px rgba(109, 124, 255, 0.4);
 }
 
 .auth-error {
   margin: 0 1rem 0.75rem;
-  padding: 0.75rem 0.85rem;
-  border-radius: 12px;
-  background: rgba(239, 68, 68, 0.14);
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  border: 1px solid rgba(248, 113, 113, 0.35);
   color: #fecaca;
-  font-size: 0.85rem;
-  line-height: 1.4;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  position: relative;
+  z-index: 1;
 }
 </style>
